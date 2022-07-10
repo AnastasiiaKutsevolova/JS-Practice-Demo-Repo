@@ -1,10 +1,7 @@
 //Node program that takes in unlimited number of command line arguments, go through each and prints out the sum of them. If any argument is not a whole number, skip it. Do support negative numbers though. If any argument is not a number, output an error message. Need at least 2 arguments.
 
-//declare function
-//get the arguments out of the command line
 const args = process.argv.slice(2);
 
-// at least 2 arguments
 if (args.length < 2) {
   console.log(`Error: Please enter at least 2 args`);
   process.exit();
@@ -12,28 +9,40 @@ if (args.length < 2) {
 
 console.log("args:", args);
 
-//declare an accumulator
-let total = 0;
+const convertToNums = function (numbers) {
+  const outputArr = [];
 
-//goes through each args
-for (let nb of args) {
-  //Nan - output error message
-  if (isNaN(Number(nb))) {
-    console.log(`Error: please input only 
-    numbers`);
-    process.exit();
+  for (let num of numbers) {
+    outputArr.push(Number(num));
   }
 
-  //argumet is not a whole number, skip it
-  if (Number.isInteger(Number(nb))) {
-    total += Number(nb);
+  return outputArr;
+};
+
+const allNums = function (numbers) {
+  for (let num of numbers) {
+    if (isNaN(num)) {
+      console.log(`Error: please input only numbers`);
+      process.exit();
+    }
   }
-  console.log("nb", nb, "total", total);
-}
 
-//ensure the arguments are all numbers
+  return numbers;
+};
 
-//add each arg to the accumulator
+const sum = function (numbers) {
+  let total = 0;
 
-//print out the sum
-console.log("Total", total);
+  for (let nb of numbers) {
+    if (Number.isInteger(nb)) {
+      total += nb;
+    }
+    console.log("nb", nb, "total", total);
+  }
+
+  return total;
+};
+
+const result = sum(allNums(convertToNums(args)));
+
+console.log("Total:", result);
